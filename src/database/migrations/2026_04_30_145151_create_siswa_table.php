@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('siswa', function (Blueprint $table) {
-            $table->string('nis')->primary();
-            $table->string('nisn');
+            $table->string('nisn', 10)->primary();
+            $table->string('nis', 8);
             $table->string('nama');
             $table->unsignedBigInteger('id_kelas');
             $table->text('alamat');
             $table->string('no_telp');
             $table->unsignedBigInteger('id_spp');
+
+
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
+            $table->foreign('id_spp')->references('id_spp')->on('spp');
         });
     }
 

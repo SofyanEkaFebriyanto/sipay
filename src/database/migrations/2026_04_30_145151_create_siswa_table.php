@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('nisn', 10)->primary();
             $table->string('nis', 8);
             $table->string('nama');
+            $table->string('password');
             $table->unsignedBigInteger('id_kelas');
             $table->text('alamat');
             $table->string('no_telp');

@@ -4,10 +4,11 @@ services:
     container_name: sipay_app
     ports:
       - "8000:8000"
+      - "5173:5173"
     volumes:
       - ./src:/var/www
     working_dir: /var/www
-    command: sh -c "composer install && php artisan serve --host=0.0.0.0 --port=8000"
+    command: sh -c "composer install && npm install && (npm run dev &) && php artisan serve --host=0.0.0.0 --port=8000"
     depends_on:
       - db
 

@@ -3,26 +3,56 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Siswa;
+use App\Models\Petugas;
+use App\Models\Kelas;
+use App\Models\Spp;
+use App\Models\Pembayaran;
 
 class DashboardController extends Controller
 {
     // Fungsi untuk Dashboard Admin
     public function admin()
     {
-        // Untuk tes sementara, kita tampilkan teks dulu.
-        // Nanti teks ini kita ganti jadi: return view('admin.dashboard');
-        return "Selamat datang di Dashboard Admin!"; 
+        $data = $this->getSummaryData();
+        return view('admin.dashboard', $data); 
     }
 
     // Fungsi untuk Dashboard Petugas
     public function petugas()
     {
-        return "Selamat datang di Dashboard Petugas!";
+        $data = $this->getSummaryData();
+        return view('petugas.dashboard', $data);
     }
 
     // Fungsi untuk Dashboard Siswa
     public function siswa()
     {
-        return "Selamat datang di Dashboard Siswa!";
+        $user = Auth::guard('siswa')->user();
+        
+        $data = [
+            'siswa' => $user,
+            'pembayarans' => Pembayaran::with('petugas')
+                ->where('nisn', $user->nisn)
+                ->latest('tgl_bayar')
+                ->get(),
+        ];
+
+        return view('siswa.dashboard', $data);
+    }
+
+    // Helper untuk data summary (Admin & Petugas)
+    private function getSummaryData()
+    {
+        return [
+            'totalSiswa' => Siswa::count(),
+            'totalPetugas' => Petugas::count(),
+            'totalKelas' => Kelas::count(),
+            'totalSPP' => Spp::count(),
+            'recentPembayaran' => Pembayaran::with(['siswa', 'petugas'])
+                ->latest('id_pembayaran')
+                ->take(5)
+                ->get(),
+        ];
     }
 }

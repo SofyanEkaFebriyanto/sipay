@@ -15,4 +15,18 @@ class Siswa extends Authenticatable
     // Beri tahu Laravel kalau NISN itu huruf/angka (string), bukan angka berurutan (auto-increment)
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public $timestamps = false;
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'password' => 'hashed',
+        ];
+    }
 }

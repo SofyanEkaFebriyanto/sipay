@@ -15,39 +15,49 @@ class AuthController extends Controller
     // 2. Fungsi untuk proses login (Sintaks Dasar)
     public function login(Request $request)
     {
-        // Ambil data dari form login
+        // Validasi input
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
         $user = $request->username;
         $pass = $request->password;
 
         // A. COBA LOGIN SEBAGAI PETUGAS / ADMIN
-        // Kita pakai Guard 'petugas' karena datanya di tabel petugas
         if (Auth::guard('petugas')->attempt(['username' => $user, 'password' => $pass])) {
+            $request->session()->regenerate();
             
-            // Kalau berhasil, ambil data siapa yang login
             $data = Auth::guard('petugas')->user();
 
-            // Cek levelnya (Admin atau Petugas)
             if ($data->level == 'admin') {
-                return redirect('/admin/dashboard');
+                return redirect()->intended('/admin/dashboard');
             } else {
-                return redirect('/petugas/dashboard');
+                return redirect()->intended('/petugas/dashboard');
             }
         }
 
         // B. KALAU GAGAL, COBA LOGIN SEBAGAI SISWA
-        // Siswa login pakai NISN sebagai username-nya
         if (Auth::guard('siswa')->attempt(['nisn' => $user, 'password' => $pass])) {
-            return redirect('/siswa/dashboard');
+            $request->session()->regenerate();
+            return redirect()->intended('/siswa/dashboard');
         }
 
         // C. KALAU SEMUA GAGAL
-        return back()->with('pesan_error', 'Username atau Password salah!');
+        return back()->withErrors([
+            'username' => 'Username atau Password salah!',
+        ])->withInput($request->only('username'));
     }
 
     // 3. Fungsi Logout
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::guard('petugas')->logout();
         Auth::guard('siswa')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('/login');
-    }}
+    }
+}

@@ -15,5 +15,19 @@ class Petugas extends Authenticatable
     protected $guarded = [];
     
     // (Opsional) Kalau primary key-nya bukan 'id', misalnya 'id_petugas', hilangkan tanda komentar di bawah ini:
-    // protected $primaryKey = 'id_petugas';
+    protected $primaryKey = 'id_petugas';
+
+    public $timestamps = false;
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'password' => 'hashed',
+        ];
+    }
 }

@@ -42,7 +42,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-    ],
+        // Tambahkan guard petugas
+        'petugas' => [
+            'driver' => 'session',
+            'provider' => 'petugas',
+        ],
+        // Tambahkan guard siswa
+        'siswa' => [
+            'driver' => 'session',
+            'provider' => 'siswa',
+        ],
+        ],
 
     /*
     |--------------------------------------------------------------------------
@@ -66,12 +76,23 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],
+        // Tambahkan provider petugas
+        'petugas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Petugas::class,
+        ],
+        // Tambahkan provider siswa
+        'siswa' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Siswa::class,
+        ],
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-    ],
+
 
     /*
     |--------------------------------------------------------------------------

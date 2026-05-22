@@ -34,6 +34,8 @@ Proyek ini dibangun secara kolaboratif oleh kelompok **SYNTRA** Kelas XI PPLG SM
 | :--- | :--- | :--- |
 | **Sofyan Eka Febriyanto** | Project Manager & Backend Engineer | - Arsitektur Multi-Guard Auth & Multi-Role<br>- Dockerization & Konfigurasi Lingkungan Sistem<br>- Manajemen Repositori Git & Integrasi Konflik |
 | **Najla** | Database Designer & Frontend Developer | - Perancangan Skema Migrasi Database & Seeder Data<br>- Slicing UI Form Login & Dashboard Utama<br>- Implementasi Layout Kustom Blade |
+| **Shabrina** | Frontend Engineer | - Slicing UI Manajemen Master Data (Kelas & SPP)<br>- Implementasi Komponen Tabel Dinamis<br>- Penyesuaian Komponen Form Input CRUD |
+| **Ival** | Quality Assurance & Tester | - Pengujian Fungsionalitas Fitur & Validasi Form<br>- Penyusunan Skenario Uji Coba Aplikasi (UAT)<br>- Identifikasi Bug & Pelaporan Kendala Teknis |
 
 ---
 
@@ -86,5 +88,5 @@ Aplikasi sekarang sudah dapat diakses melalui browser pada URL: **`http://localh
 
 ## 🔑 Akun Uji Coba Default
 Setelah berhasil melakukan seeder, gunakan akun simulasi berikut untuk masuk:
-- **Admin:** Username: `admin` | Password: `123`
-- **Petugas:** Username: `petugas` | Password: `123`
+- **Admin:** Username: `admin` | Password: `admin`
+- **Petugas:** Username: `petugas` | Password: `petugas`

@@ -3,37 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\Kelas;
+use App\Models\Spp;
 use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
     /**
-     * Menampilkan Halaman Data Siswa (Sesuai Gambar 3)
+     * Menampilkan Halaman Data Siswa
      */
     public function index() {
-        // Data dummy untuk tampilan Data Siswa agar sesuai desain
-        $siswa = [
-            (object)[
-                'nisn' => '0000000001', 
-                'nama' => 'ABDUL REZA', 
-                'kelas' => 'XI RPL 1', 
-                'telepon' => '08123456789'
-            ],
-            (object)[
-                'nisn' => '0000000002', 
-                'nama' => 'BUDI SANTOSO', 
-                'kelas' => 'XI RPL 2', 
-                'telepon' => '08123456789'
-            ],
-            (object)[
-                'nisn' => '0000000003', 
-                'nama' => 'RIZQY FIRMAN', 
-                'kelas' => 'XI RPL 3', 
-                'telepon' => '08123456789'
-            ],
-        ];
+        $siswa = Siswa::with(['kelas', 'spp'])->get();
+        $kelas = Kelas::all();
+        $spp = Spp::all();
 
-        return view('siswa.index', compact('siswa'));
+        return view('siswa.index', compact('siswa', 'kelas', 'spp'));
     }
 
     /**
@@ -83,37 +67,65 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nisn' => 'required',
+            'nisn' => 'required|unique:siswa,nisn',
+            'nis' => 'required',
             'nama' => 'required',
-            'kelas' => 'required',
-            'telepon' => 'required'
+            'password' => 'required',
+            'id_kelas' => 'required',
+            'alamat' => 'required',
+            'no_telp' => 'required',
+            'id_spp' => 'required'
         ]);
 
         Siswa::create([
-            'nisn'    => $request->nisn,
-            'nama'    => $request->nama,
-            'kelas'   => $request->kelas,
-            'telepon' => $request->telepon
+            'nisn'     => $request->nisn,
+            'nis'      => $request->nis,
+            'nama'     => $request->nama,
+            'password' => bcrypt($request->password),
+            'id_kelas' => $request->id_kelas,
+            'alamat'   => $request->alamat,
+            'no_telp'  => $request->no_telp,
+            'id_spp'   => $request->id_spp
         ]);
 
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan');
     }
 
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, $nisn)
     {
-        $siswa->update([
-            'nisn'    => $request->nisn,
-            'nama'    => $request->nama,
-            'kelas'   => $request->kelas,
-            'telepon' => $request->telepon
+        $request->validate([
+            'nis' => 'required',
+            'nama' => 'required',
+            'id_kelas' => 'required',
+            'alamat' => 'required',
+            'no_telp' => 'required',
+            'id_spp' => 'required'
         ]);
 
-        return redirect()->back()->with('success', 'Data berhasil diupdate');
+        $siswa = Siswa::findOrFail($nisn);
+
+        $data = [
+            'nis'      => $request->nis,
+            'nama'     => $request->nama,
+            'id_kelas' => $request->id_kelas,
+            'alamat'   => $request->alamat,
+            'no_telp'  => $request->no_telp,
+            'id_spp'   => $request->id_spp
+        ];
+
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $siswa->update($data);
+
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diupdate');
     }
 
-    public function destroy(Siswa $siswa)
+    public function destroy($nisn)
     {
+        $siswa = Siswa::findOrFail($nisn);
         $siswa->delete();
-        return redirect()->back()->with('success', 'Data berhasil dihapus');
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus');
     }
 }

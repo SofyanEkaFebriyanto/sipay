@@ -29,8 +29,7 @@ Route::middleware('auth:siswa')->group(function() {
 });
 
 // Placeholder untuk rute yang ada di sidebar layout
-Route::get('/pembayaran', function() { return "Halaman Pembayaran"; })->name('pembayaran.index');
-Route::get('/siswa', function() { return "Halaman Data Siswa"; })->name('siswa.index');
+Route::get('/pembayaran', [SiswaController::class, 'pembayaran'])->name('pembayaran.index');
 Route::resource('kelas', KelasController::class);
 Route::resource('siswa', SiswaController::class);
 Route::get('/spp', function() { return "Halaman Data SPP"; })->name('spp.index');

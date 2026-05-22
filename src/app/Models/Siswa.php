@@ -2,21 +2,6 @@
 
 namespace App\Models;
 
-<<<<<<< HEAD
-use Illuminate\Database\Eloquent\Model;
-
-class Siswa extends Model
-{
-    protected $fillable=[
-
-        'nisn',
-        'nama',
-        'kelas',
-        'telepon'
-
-    ];
-}
-=======
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Siswa extends Authenticatable
@@ -44,5 +29,14 @@ class Siswa extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas');
+    }
+
+    public function spp()
+    {
+        return $this->belongsTo(Spp::class, 'id_spp');
+    }
 }
->>>>>>> 415db9beae620f28f07606134f3bc098542c054e

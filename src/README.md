@@ -1,75 +1,97 @@
 <p align="center">
-    <img src="image.png" width="600" alt="SIPAY Logo">
+    <img src="src/image.png" width="600" alt="SIPAY Logo">
 </p>
 
 # SIPAY - Sistem Informasi Pembayaran SPP
 
-**SIPAY** adalah aplikasi berbasis web yang dirancang untuk mempermudah pengelolaan administrasi pembayaran SPP di sekolah. Aplikasi ini dibangun menggunakan framework **Laravel 11** dan **Tailwind CSS**, dengan fokus pada kemudahan penggunaan (*user-friendly*) dan efisiensi pencatatan transaksi.
+**SIPAY** adalah aplikasi berbasis web yang dirancang untuk mengelola administrasi pembayaran SPP sekolah secara digital, efisien, dan transparan. Proyek ini dikembangkan sebagai bagian dari Tugas **Project Based Learning (PjBL)** Kompetensi Keahlian Pengembangan Perangkat Lunak dan Gim (PPLG) di **SMK Negeri 7 Baleendah**.
+
+Aplikasi ini menggunakan arsitektur Modern MVC dengan **Laravel 12**, mendukung otentikasi multi-role berbasis multi-guard (Admin, Petugas, dan Siswa), serta dirancang sepenuhnya menggunakan **Docker** untuk standarisasi lingkungan pengembangan.
+
+---
 
 ## 🚀 Fitur Utama
 
-- **Multi-Role Login**: Akses berbeda untuk Admin, Petugas, dan Siswa.
-- **Manajemen Data Master**: CRUD lengkap untuk data Siswa, Kelas, SPP, dan Petugas.
-- **Entry Transaksi Pintar**: Fitur *autofill* nominal pembayaran berdasarkan profil siswa untuk meminimalisir kesalahan input.
-- **Histori Pembayaran**: Siswa dapat melihat riwayat pembayaran mereka secara langsung.
-- **Laporan Cetak**: Fitur pembuatan laporan pembayaran SPP yang siap cetak (*print-friendly*).
-- **UI Modern**: Desain antarmuka yang bersih dan responsif menggunakan Tailwind CSS.
-
-## 👥 Peran Pengguna (Roles)
-
-1.  **Admin**: Memiliki akses penuh ke seluruh fitur, termasuk manajemen data master, transaksi, dan laporan.
-2.  **Petugas**: Fokus pada pengelolaan transaksi pembayaran dan melihat histori.
-3.  **Siswa**: Dapat melihat profil diri dan riwayat pembayaran SPP yang telah dilakukan.
-
-## 🛠️ Teknologi yang Digunakan
-
-- **Framework**: [Laravel 11](https://laravel.com)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com)
-- **Database**: MySQL
-- **Icon & UI**: [Heroicons](https://heroicons.com)
-- **Environment**: PHP 8.2+
-
-## 📥 Instalasi Proyek
-
-Ikuti langkah-langkah berikut untuk menjalankan proyek di komputer lokal Anda:
-
-1.  **Clone Repository**
-    ```bash
-    git clone https://github.com/SofyanEkaFebriyanto/sipay.git
-    cd sipay/src
-    ```
-
-2.  **Install Dependencies**
-    ```bash
-    composer install
-    npm install
-    ```
-
-3.  **Konfigurasi Environment**
-    Salin file `.env.example` menjadi `.env` dan sesuaikan konfigurasi database Anda.
-    ```bash
-    cp .env.example .env
-    php artisan key:generate
-    ```
-
-4.  **Migrasi Database**
-    ```bash
-    php artisan migrate
-    ```
-
-5.  **Jalankan Aplikasi**
-    Buka dua terminal dan jalankan perintah berikut:
-    ```bash
-    # Terminal 1
-    php artisan serve
-
-    # Terminal 2
-    npm run dev
-    ```
-
-## 📝 Lisensi
-
-Proyek ini dibuat untuk tujuan pembelajaran dan pengembangan sistem informasi sekolah. Silakan gunakan dan modifikasi sesuai kebutuhan.
+-   **Multi-Role Authentication (Multi-Guard):** Sistem login terpisah menggunakan guard untuk tabel `petugas` (Level: Admin & Petugas) dan tabel `siswa` (menggunakan `nisn`).
+-   **Manajemen Data Master (CRUD):** Pengelolaan lengkap data Siswa, Kelas, SPP, dan Petugas/Admin dengan antarmuka modal yang modern.
+-   **Entry Transaksi Pembayaran:** Fitur pencatatan SPP dengan sistem *smart-autofill* nominal berdasarkan profil tahun SPP siswa untuk akurasi data.
+-   **Histori Pembayaran Siswa:** Dashboard khusus siswa untuk memantau riwayat pembayaran secara mandiri.
+-   **Laporan Cetak (Print-Ready):** Fitur pembuatan laporan rekapitulasi pembayaran SPP yang siap cetak dengan format resmi.
+-   **Dashboard Statistik Dinamis:** Ringkasan data operasional (Total Siswa, Petugas, Kelas, SPP) dalam satu tampilan visual.
+-   **Dockerized Environment:** Konfigurasi kontainerisasi instan yang memudahkan kolaborasi tim di berbagai sistem operasi.
 
 ---
-Dikembangkan dengan ❤️ oleh **Sofyan Eka Febriyanto**
+
+## 🛠️ Tech Stack
+
+-   **Backend:** [Laravel 12.x](https://laravel.com) (PHP 8.2+)
+-   **Frontend:** [Tailwind CSS v4](https://tailwindcss.com), [Vite](https://vitejs.dev), & [Blade Templating](https://laravel.com/docs/blade)
+-   **Database:** MySQL 8.0
+-   **Icon & UI**: [Heroicons](https://heroicons.com)
+-   **API Handling:** Axios
+-   **Containerization:** Docker & Docker Compose
+-   **Version Control:** Git & GitHub
+
+---
+
+## 👥 Anggota Tim Pengembangan (SYNTRA)
+
+Proyek ini dibangun secara kolaboratif oleh kelompok **SYNTRA** Kelas XI PPLG-2 SMK Negeri 7 Baleendah:
+
+| Nama Anggota | Peran / Deskripsi Tugas | Kontribusi Teknis |
+| :--- | :--- | :--- |
+| **Sofyan Eka Febriyanto** | Project Manager & Backend Engineer | - Arsitektur Multi-Guard Auth & Multi-Role<br>- Dockerization & Konfigurasi Lingkungan Sistem<br>- Pengembangan Logika Transaksi & Laporan |
+| **Najla** | Database Designer & Frontend Developer | - Perancangan Skema Database & Migrasi<br>- Slicing UI Form Login & Dashboard Utama<br>- Implementasi Layout Master Blade |
+| **Shabrina** | Frontend Engineer | - Slicing UI Manajemen Master Data (Siswa, Kelas, SPP)<br>- Implementasi Komponen Tabel & Modal Dinamis<br>- Penyesuaian Desain Responsif |
+| **Ival** | Quality Assurance & Tester | - Pengujian Fungsionalitas Fitur & Validasi Form<br>- Penyusunan Skenario Uji Coba Aplikasi (UAT)<br>- Dokumentasi Teknis & Pelaporan Bug |
+
+---
+
+## ⚙️ Panduan Instalasi Lokal (Docker)
+
+Ikuti langkah-langkah berikut untuk menjalankan proyek SIPAY di komputer lokal Anda:
+
+### 1. Clone Repositori
+```bash
+git clone https://github.com/SofyanEkaFebriyanto/sipay.git
+cd sipay
+```
+
+### 2. Konfigurasi Environment File
+Salin file `.env.example` menjadi `.env`:
+```bash
+cp src/.env.example src/.env
+```
+
+### 3. Nyalakan Kontainer Docker
+Jalankan Docker Compose untuk membangun dan menyalakan server aplikasi dan database:
+```bash
+docker compose up -d
+```
+
+### 4. Instal Dependensi Composer
+```bash
+docker exec -it sipay_app composer install
+```
+
+### 5. Generate Application Key
+```bash
+docker exec -it sipay_app php artisan key:generate
+```
+
+### 6. Eksekusi Migrasi & Seeder Database
+```bash
+docker exec -it sipay_app php artisan migrate:fresh --seed
+```
+
+Aplikasi sekarang sudah dapat diakses melalui browser pada URL: **`http://localhost:8000`**
+
+---
+
+## 🔑 Akun Uji Coba Default
+Setelah berhasil melakukan seeder, gunakan akun berikut untuk mencoba aplikasi:
+-   **Admin:** Username: `admin` | Password: `admin`
+-   **Petugas:** Username: `petugas` | Password: `petugas`
+
+---
+Dikembangkan dengan ❤️ oleh Tim **SYNTRA**

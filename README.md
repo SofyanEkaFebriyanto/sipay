@@ -1,6 +1,3 @@
-<p align="center">
-    <img src="src/image.png" width="600" alt="SIPAY Logo">
-</p>
 
 # SIPAY - Sistem Informasi Pembayaran SPP
 

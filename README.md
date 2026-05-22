@@ -27,6 +27,7 @@ Aplikasi ini menggunakan arsitektur Modern MVC dengan **Laravel 12**, mendukung 
 -   **Backend:** [Laravel 12.x](https://laravel.com) (PHP 8.2+)
 -   **Frontend:** [Tailwind CSS v4](https://tailwindcss.com), [Vite](https://vitejs.dev), & [Blade Templating](https://laravel.com/docs/blade)
 -   **Database:** MySQL 8.0
+-   **Icon & UI**: [Heroicons](https://heroicons.com)
 -   **API Handling:** Axios
 -   **Containerization:** Docker & Docker Compose
 -   **Version Control:** Git & GitHub
@@ -35,7 +36,7 @@ Aplikasi ini menggunakan arsitektur Modern MVC dengan **Laravel 12**, mendukung 
 
 ## 👥 Anggota Tim Pengembangan (SYNTRA)
 
-Proyek ini dibangun secara kolaboratif oleh kelompok **SYNTRA** Kelas XI PPLG SMK Negeri 7 Baleendah:
+Proyek ini dibangun secara kolaboratif oleh kelompok **SYNTRA** Kelas XI PPLG-2 SMK Negeri 7 Baleendah:
 
 | Nama Anggota | Peran / Deskripsi Tugas | Kontribusi Teknis |
 | :--- | :--- | :--- |

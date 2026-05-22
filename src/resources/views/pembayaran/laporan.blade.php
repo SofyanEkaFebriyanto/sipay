@@ -1,20 +1,91 @@
-<x-app-layout>
-    <div class="mb-8 flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-800 tracking-tight">Laporan Pembayaran</h1>
-            <p class="text-gray-500 mt-1 font-medium">Rekapitulasi dan Laporan Transaksi SPP</p>
-        </div>
-        <!-- Area Aksi Laporan: Tombol untuk ekspor data -->
-        <div class="flex space-x-3">
-            <button class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg shadow-sm flex items-center font-semibold transition-colors">
-                <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                Export Excel
-            </button>
-        </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Judul halaman laporan dinamis sesuai tanggal -->
+    <title>Laporan Pembayaran SPP - {{ date('d-m-Y') }}</title>
+    <style>
+        /* Gaya khusus untuk tampilan cetak (print-friendly) */
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        .header h1 { margin: 0; text-transform: uppercase; }
+        .header p { margin: 5px 0; font-size: 14px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 10px; text-align: left; font-size: 12px; }
+        th { background-color: #f2f2f2; }
+        .footer { margin-top: 50px; text-align: right; }
+        .signature { margin-top: 80px; font-weight: bold; }
+        
+        /* Menyembunyikan elemen tertentu saat dicetak */
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tombol navigasi yang hanya muncul di layar, bukan saat dicetak -->
+    <div class="no-print" style="margin-bottom: 20px; text-align: right;">
+        <button onclick="window.print()" style="padding: 10px 20px; background: #4A6CF7; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Cetak Sekarang</button>
+        <button onclick="window.close()" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Tutup</button>
     </div>
 
-    <!-- Kontainer Laporan -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="p-8 text-center text-gray-500">Halaman Laporan Pembayaran (Placeholder)</div>
+    <!-- Header Laporan -->
+    <div class="header">
+        <h1>Laporan Pembayaran SPP</h1>
+        <p>SMK NEGERI 7 BALEENDAH</p>
+        <p>Jl. Siliwangi No. 123, Kabupaten Bandung</p>
+        <p>Dicetak Pada: {{ date('d F Y H:i') }}</p>
     </div>
-</x-app-layout>
+
+    <!-- Tabel Data Pembayaran -->
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Tanggal Bayar</th>
+                <th>Nama Siswa (NISN)</th>
+                <th>Kelas</th>
+                <th>Bulan/Tahun Dibayar</th>
+                <th>Nominal Bayar</th>
+                <th>Petugas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($pembayarans as $pembayaran)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ \Carbon\Carbon::parse($pembayaran->tgl_bayar)->format('d-m-Y') }}</td>
+                <td>{{ $pembayaran->siswa->nama ?? 'Siswa Terhapus' }} ({{ $pembayaran->nisn }})</td>
+                <td>{{ $pembayaran->siswa->kelas->nama_kelas ?? '-' }}</td>
+                <td>{{ $pembayaran->bulan_dibayar }} {{ $pembayaran->tahun_dibayar }}</td>
+                <td>Rp {{ number_format($pembayaran->jumlah_bayar, 0, ',', '.') }}</td>
+                <td>{{ $pembayaran->petugas->nama_petugas ?? 'N/A' }}</td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="7" style="text-align: center;">Tidak ada data pembayaran.</td>
+            </tr>
+            @endforelse
+        </tbody>
+        <tfoot>
+            <!-- Baris Total Keseluruhan -->
+            <tr>
+                <th colspan="5" style="text-align: right;">Total Keseluruhan:</th>
+                <th colspan="2">Rp {{ number_format($pembayarans->sum('jumlah_bayar'), 0, ',', '.') }}</th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Bagian Tanda Tangan -->
+    <div class="footer">
+        <p>Bandung, {{ date('d F Y') }}</p>
+        <p>Mengetahui,</p>
+        <p>Kepala Sekolah / Bendahara</p>
+        <div class="signature">
+            (...........................................)
+        </div>
+    </div>
+</body>
+</html>

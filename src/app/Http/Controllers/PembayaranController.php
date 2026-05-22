@@ -88,10 +88,13 @@ class PembayaranController extends Controller
     }
 
     /**
-     * Menampilkan halaman pembuatan laporan pembayaran.
+     * Menampilkan Halaman Laporan Pembayaran (Tampilan Cetak).
+     * Mengambil seluruh data transaksi beserta relasi Siswa, Kelas, dan Petugas.
      */
     public function laporan()
     {
-        return view('pembayaran.laporan');
+        // Ambil semua data pembayaran beserta relasi siswa, kelas, dan petugas
+        $pembayarans = Pembayaran::with(['siswa.kelas', 'petugas'])->latest('tgl_bayar')->get();
+        return view('pembayaran.laporan', compact('pembayarans'));
     }
 }

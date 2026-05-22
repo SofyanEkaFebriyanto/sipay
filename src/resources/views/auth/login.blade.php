@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIN - SIPAY</title>
+    <!-- Favicon Utama -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-b from-[#B9D1EA] to-[#F8D7E8] min-h-screen flex items-center justify-center font-sans antialiased">

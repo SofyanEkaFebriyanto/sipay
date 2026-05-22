@@ -2,99 +2,89 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pembayaran;
+use App\Models\Siswa;
+use App\Models\Petugas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PembayaranController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar transaksi pembayaran
      */
-    public function pembayaran()
+    public function index()
     {
-        $pembayaran = [
-        (object)[
-            'tanggal' => '14 Apr 2026',
-            'nama' => 'ABDUL REZA',
-            'nisn' => '0000000001',
-            'bulan' => 'Agustus 2026',
-            'nominal' => '300.000',
-            'petugas' => 'petugas'
-        ],
-        (object)[
-            'tanggal' => '14 Apr 2026',
-            'nama' => 'RIZQY FIRMAN',
-            'nisn' => '0000000003',
-            'bulan' => 'Juli 2026',
-            'nominal' => '300.000',
-            'petugas' => 'petugas'
-        ],
-        (object)[
-            'tanggal' => '14 Apr 2026',
-            'nama' => 'BUDI SANTOSO',
-            'nisn' => '0000000002',
-            'bulan' => 'Juli 2026',
-            'nominal' => '300.000',
-            'petugas' => 'petugas'
-        ],
-        (object)[
-            'tanggal' => '14 Apr 2026',
-            'nama' => 'ABDUL REZA',
-            'nisn' => '0000000001',
-            'bulan' => 'Juli 2026',
-            'nominal' => '300.000',
-            'petugas' => 'Administrator'
-        ],
-    ];
+        $pembayarans = Pembayaran::with(['siswa', 'petugas'])->latest('id_pembayaran')->get();
+        $siswas = Siswa::with(['kelas', 'spp'])->get();
 
-    return view('pembayaran.index', compact('pembayaran'));
-}
-    
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('pembayaran.index', compact('pembayarans', 'siswas'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan transaksi pembayaran baru
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nisn' => 'required|exists:siswa,nisn',
+            'bulan_dibayar' => 'required',
+            'tahun_dibayar' => 'required|numeric',
+            'id_spp' => 'required|exists:spp,id_spp',
+            'jumlah_bayar' => 'required|numeric',
+        ]);
+
+        // Ambil ID Petugas yang sedang login (petugas/admin)
+        $id_petugas = Auth::guard('petugas')->id();
+
+        Pembayaran::create([
+            'id_petugas' => $id_petugas,
+            'nisn' => $request->nisn,
+            'tgl_bayar' => now(),
+            'bulan_dibayar' => $request->bulan_dibayar,
+            'tahun_dibayar' => $request->tahun_dibayar,
+            'id_spp' => $request->id_spp,
+            'jumlah_bayar' => $request->jumlah_bayar,
+        ]);
+
+        return redirect()->route('pembayaran.index')->with('success', 'Transaksi pembayaran berhasil dicatat.');
     }
 
     /**
-     * Display the specified resource.
+     * Memperbarui data transaksi (hanya bulan dan tahun)
      */
-    public function show(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'bulan_dibayar' => 'required',
+            'tahun_dibayar' => 'required|numeric',
+        ]);
+
+        $pembayaran = Pembayaran::findOrFail($id);
+        $pembayaran->update([
+            'bulan_dibayar' => $request->bulan_dibayar,
+            'tahun_dibayar' => $request->tahun_dibayar,
+        ]);
+
+        return redirect()->route('pembayaran.index')->with('success', 'Data transaksi berhasil diperbarui.');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Membatalkan/Menghapus transaksi pembayaran
      */
-    public function edit(string $id)
+    public function destroy($id)
     {
-        //
+        $pembayaran = Pembayaran::findOrFail($id);
+        $pembayaran->delete();
+
+        return redirect()->route('pembayaran.index')->with('success', 'Transaksi pembayaran telah dibatalkan.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Halaman Laporan (Placeholder)
      */
-    public function update(Request $request, string $id)
+    public function laporan()
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('pembayaran.laporan');
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\SppController;
 
 // Jalur awal langsung ke Login
 Route::get('/', [AuthController::class, 'index']);
@@ -33,5 +34,5 @@ Route::get('/pembayaran', [SiswaController::class, 'pembayaran'])->name('pembaya
 Route::get('/pembayaran/laporan', function() { return view('pembayaran.laporan'); })->name('pembayaran.laporan');
 Route::resource('kelas', KelasController::class);
 Route::resource('siswa', SiswaController::class);
-Route::get('/spp', function() { return view('spp.index'); })->name('spp.index');
+Route::resource('spp', SppController::class);
 Route::get('/user', function() { return view('user.index'); })->name('user.index');

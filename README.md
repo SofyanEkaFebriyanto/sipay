@@ -24,11 +24,11 @@ Aplikasi ini menggunakan arsitektur Modern MVC dengan **Laravel 12**, mendukung 
 
 ## 🛠️ Tech Stack
 
--   **Framework:** Laravel 12.x
--   **Bahasa Pemrograman:** PHP 8.2
--   **Database:** MySQL
--   **Desain & Styling:** TailwindCSS & Vite
--   **Kontainerisasi:** Docker & Docker Compose
+-   **Backend:** [Laravel 12.x](https://laravel.com) (PHP 8.2+)
+-   **Frontend:** [Tailwind CSS v4](https://tailwindcss.com), [Vite](https://vitejs.dev), & [Blade Templating](https://laravel.com/docs/blade)
+-   **Database:** MySQL 8.0
+-   **API Handling:** Axios
+-   **Containerization:** Docker & Docker Compose
 -   **Version Control:** Git & GitHub
 
 ---

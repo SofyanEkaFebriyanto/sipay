@@ -9,10 +9,10 @@
 <body class="bg-gradient-to-b from-[#B9D1EA] to-[#F8D7E8] min-h-screen flex items-center justify-center font-sans antialiased">
     
     <div class="w-full max-w-md px-6 flex flex-col items-center">
-        <!-- Title -->
+        <!-- Judul Halaman -->
         <h1 class="text-4xl font-bold text-black mb-10 tracking-tight">LOGIN</h1>
 
-        <!-- Validation Errors -->
+        <!-- Bagian Pesan Kesalahan Validasi -->
         @if ($errors->any())
             <div class="mb-4 text-red-600 bg-red-100 p-3 rounded-xl w-full text-center font-medium border border-red-300">
                 @foreach ($errors->all() as $error)
@@ -21,11 +21,11 @@
             </div>
         @endif
 
-        <!-- Form -->
+        <!-- Form Login Utama -->
         <form action="{{ route('login') }}" method="POST" class="w-full flex flex-col items-center space-y-6">
             @csrf
             
-            <!-- Username -->
+            <!-- Input Username atau NISN -->
             <div class="w-full">
                 <label for="username" class="block text-base font-medium text-black mb-2 pl-2">Username (USERNAME/NISN)</label>
                 <input type="text" name="username" id="username" value="{{ old('username') }}" required autofocus
@@ -33,7 +33,7 @@
                     placeholder="Masukkan Username atau NISN Anda">
             </div>
 
-            <!-- Password -->
+            <!-- Input Password -->
             <div class="w-full">
                 <label for="password" class="block text-base font-medium text-black mb-2 pl-2">Password</label>
                 <input type="password" name="password" id="password" required
@@ -41,7 +41,7 @@
                     placeholder="Masukkan password Anda">
             </div>
 
-            <!-- Button -->
+            <!-- Tombol Submit -->
             <button type="submit" 
                 class="mt-4 bg-white text-black font-bold border border-black rounded-2xl px-12 py-3 hover:bg-gray-100 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
                 LOGIN

@@ -25,7 +25,7 @@
         }
     @endphp
 
-    <!-- Sidebar -->
+    <!-- Sidebar: Navigasi samping untuk menu aplikasi -->
     <aside class="w-64 bg-[#4A6CF7] text-white flex flex-col hidden md:flex shrink-0 shadow-lg z-10">
         <div class="h-16 flex items-center px-6 font-bold text-lg border-b border-blue-400/30">
             <div class="w-8 h-8 bg-white/20 rounded mr-3 flex items-center justify-center">
@@ -34,12 +34,14 @@
             SIPAY SYNTRA
         </div>
         
+        <!-- Menu Navigasi -->
         <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
             <a href="{{ $dashboardRoute }}" class="flex items-center px-4 py-3 rounded-xl transition-all {{ Request::is('*/dashboard') ? 'bg-white/20 font-semibold text-white' : 'text-blue-100 hover:bg-white/10 hover:text-white' }}">
                 <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                 Dashboard
             </a>
 
+            <!-- Menu Khusus Admin & Petugas -->
             @if($role === 'admin' || $role === 'petugas')
             <a href="{{ route('pembayaran.index') }}" class="flex items-center px-4 py-3 rounded-xl transition-all {{ request()->routeIs('pembayaran.*') ? 'bg-white/20 font-semibold text-white' : 'text-blue-100 hover:bg-white/10 hover:text-white' }}">
                 <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
@@ -47,6 +49,7 @@
             </a>
             @endif
 
+            <!-- Menu Khusus Admin (Manajemen Data) -->
             @if($role === 'admin')
             <a href="{{ route('siswa.index') }}" class="flex items-center px-4 py-3 rounded-xl transition-all {{ request()->routeIs('siswa.*') ? 'bg-white/20 font-semibold text-white' : 'text-blue-100 hover:bg-white/10 hover:text-white' }}">
                 <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -67,6 +70,7 @@
             @endif
         </nav>
 
+        <!-- Tombol Logout -->
         <div class="p-4 border-t border-blue-400/30">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -78,18 +82,18 @@
         </div>
     </aside>
 
-    <!-- Main Content wrapper -->
+    <!-- Pembungkus Konten Utama -->
     <div class="flex-1 flex flex-col overflow-hidden">
         
-        <!-- Top Navbar -->
+        <!-- Navbar Atas -->
         <header class="h-20 bg-white flex items-center px-8 border-b border-gray-200 z-0">
-            <!-- Left: School Name -->
+            <!-- Kiri: Nama Sekolah -->
             <div class="flex-1">
                 <p class="font-bold text-gray-800 text-xl tracking-tight">SMK NEGERI 7 BALEENDAH</p>
                 <p class="text-sm text-gray-500 font-medium">Tahun Pelajaran 2025/2026</p>
             </div>
 
-            <!-- Right: Avatar & Name -->
+            <!-- Kanan: Profil Pengguna -->
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-full bg-[#4A6CF7] text-white flex items-center justify-center font-bold text-lg shadow-sm">
                     {{ strtoupper(substr($name ?? 'A', 0, 1)) }}
@@ -101,7 +105,7 @@
             </div>
         </header>
 
-        <!-- Page Content -->
+        <!-- Area Konten Halaman -->
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F3F4F6] p-8">
             {{ $slot }}
         </main>

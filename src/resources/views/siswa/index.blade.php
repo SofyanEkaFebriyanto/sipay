@@ -4,6 +4,7 @@
             <h1 class="text-3xl font-bold text-gray-800 tracking-tight">Data Siswa</h1>
             <p class="text-gray-500 mt-1 font-medium">Mengelola Data dan Informasi Siswa</p>
         </div>
+        <!-- Tombol Tambah: Membuka modal untuk input data siswa baru -->
         <div class="flex space-x-3">
             <button onclick="document.getElementById('modal-add').classList.remove('hidden')" class="bg-[#4A6CF7] hover:bg-[#3451b2] text-white px-5 py-2.5 rounded-lg shadow-sm flex items-center font-semibold transition-colors">
                 <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
@@ -67,7 +68,7 @@
     </div>
 
     @push('modals')
-    <!-- Modal Tambah Siswa -->
+    <!-- Modal Tambah Siswa: Form pop-up untuk input data lengkap siswa -->
     <div id="modal-add" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-xl">
             <div class="flex justify-between items-center mb-5">
@@ -130,7 +131,7 @@
         </div>
     </div>
 
-    <!-- Modal Edit Siswa -->
+    <!-- Modal Edit Siswa: Form pop-up untuk memperbarui data siswa -->
     <div id="modal-edit" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-xl">
             <div class="flex justify-between items-center mb-5">
@@ -192,6 +193,7 @@
         </div>
     </div>
 
+    <!-- Script Logika Front-end untuk Modal Edit Siswa -->
     <script>
         function openEditModal(nisn, nis, nama, id_kelas, alamat, no_telp, id_spp) {
             document.getElementById('edit-nisn').value = nisn;

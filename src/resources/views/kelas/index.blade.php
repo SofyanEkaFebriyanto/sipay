@@ -65,7 +65,7 @@
     </div>
 
     @push('modals')
-    <!-- Modal Tambah Kelas -->
+    <!-- Modal Tambah Kelas: Form pop-up untuk input data baru -->
     <div id="modal-add" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
             <div class="flex justify-between items-center mb-5">
@@ -92,7 +92,7 @@
         </div>
     </div>
 
-    <!-- Modal Edit Kelas -->
+    <!-- Modal Edit Kelas: Form pop-up untuk mengedit data yang sudah ada -->
     <div id="modal-edit" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
             <div class="flex justify-between items-center mb-5">
@@ -120,6 +120,7 @@
         </div>
     </div>
 
+    <!-- Script untuk menangani logika modal edit -->
     <script>
         function openEditModal(id, nama_kelas, kompetensi_keahlian) {
             document.getElementById('edit-nama_kelas').value = nama_kelas;
@@ -128,5 +129,8 @@
             document.getElementById('modal-edit').classList.remove('hidden');
         }
     </script>
+    @endpush
+</x-app-layout>
+pt>
     @endpush
 </x-app-layout>

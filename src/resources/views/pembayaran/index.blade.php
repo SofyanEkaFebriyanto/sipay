@@ -6,6 +6,7 @@
         </div>
         
         <div class="flex space-x-3">
+            <!-- Search Bar: Fitur pencarian data transaksi di tabel secara real-time -->
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -18,12 +19,14 @@
                 $isAdmin = $user && $user->level === 'admin';
             @endphp
 
+            <!-- Tombol Cetak Laporan: Hanya muncul untuk Admin -->
             @if($isAdmin)
             <a href="{{ route('pembayaran.laporan') }}" target="_blank" class="bg-[#10B981] hover:bg-[#059669] text-white px-5 py-2.5 rounded-lg shadow-sm flex items-center font-semibold transition-colors">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                 Cetak Laporan
             </a>
             @endif
+            <!-- Tombol Entry Baru: Membuka modal form transaksi baru -->
             <button onclick="document.getElementById('modal-add').classList.remove('hidden')" class="bg-[#4A6CF7] hover:bg-[#3451b2] text-white px-5 py-2.5 rounded-lg shadow-sm flex items-center font-semibold transition-colors">
                 <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 Entry Baru
@@ -31,12 +34,14 @@
         </div>
     </div>
 
+    <!-- Pesan Sukses -->
     @if(session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
         <span class="block sm:inline">{{ session('success') }}</span>
     </div>
     @endif 
 
+    <!-- Pesan Gagal/Validasi -->
     @if($errors->any())
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
         <strong class="font-bold">Transaksi Gagal!</strong>
@@ -48,7 +53,7 @@
     </div>
     @endif
 
-    <!-- Data Table -->
+    <!-- Tabel Data Transaksi Pembayaran -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <table id="table-pembayaran" class="w-full text-left border-collapse">
             <thead>
@@ -77,9 +82,11 @@
                     <td class="p-4 font-semibold text-gray-900">Rp {{ number_format($pembayaran->jumlah_bayar, 0, ',', '.') }}</td>
                     <td class="p-4 text-sm">{{ $pembayaran->petugas->nama_petugas ?? 'N/A' }}</td>
                     <td class="p-4 flex justify-center space-x-2 items-center h-full">
+                        <!-- Aksi Edit: Hanya untuk ubah keterangan bulan/tahun -->
                         <button onclick="openEditModal('{{ $pembayaran->id_pembayaran }}', '{{ $pembayaran->bulan_dibayar }}', '{{ $pembayaran->tahun_dibayar }}')" class="w-8 h-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center hover:bg-orange-200 transition-colors" title="Edit Bulan">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </button>
+                        <!-- Aksi Batal: Menghapus data transaksi -->
                         <form action="{{ route('pembayaran.destroy', $pembayaran->id_pembayaran) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin membatalkan transaksi ini? Menghapus transaksi berarti uang pembayaran tidak sah.');">
                             @csrf @method('DELETE')
                             <button type="submit" class="w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-200 transition-colors" title="Batal Transaksi">
@@ -98,7 +105,7 @@
     </div>
 
     @push('modals')
-    <!-- Modal Entry Transaksi Baru -->
+    <!-- Modal Entry Transaksi Baru: Pop-up form untuk mencatat pembayaran -->
     <div id="modal-add" style="z-index: 9999;" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50 overflow-y-auto w-full h-full p-4">
         <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-xl my-8">
             <div class="flex justify-between items-center mb-5 border-b pb-3">
@@ -113,6 +120,7 @@
             
             <form action="{{ route('pembayaran.store') }}" method="POST">
                 @csrf
+                <!-- Pilih Siswa: Dropdown dengan fitur pencarian -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Cari Siswa Terdaftar</label>
                     <select name="nisn" id="select-siswa" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4A6CF7] focus:border-[#4A6CF7] block w-full p-2.5" onchange="autoFillSPP()">
@@ -126,6 +134,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <!-- Pilih Bulan -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Bulan Dibayar</label>
                         <select name="bulan_dibayar" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4A6CF7] focus:border-[#4A6CF7] block w-full p-2.5">
@@ -144,6 +153,7 @@
                             <option value="Juni">Juni</option>
                         </select>
                     </div>
+                    <!-- Input Tahun -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Dibayar</label>
                         <input type="text" name="tahun_dibayar" required maxlength="4" value="{{ date('Y') }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4A6CF7] focus:border-[#4A6CF7] block w-full p-2.5">
@@ -153,6 +163,7 @@
                 <!-- Hidden Input for ID SPP -->
                 <input type="hidden" name="id_spp" id="input-id_spp" required>
 
+                <!-- Info Nominal: Otomatis terisi saat siswa dipilih -->
                 <div class="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-100">
                     <label class="block text-sm font-medium text-blue-800 mb-1">Jumlah Harus Dibayar (Nominal SPP Siswa)</label>
                     <div class="flex">
@@ -175,7 +186,7 @@
         </div>
     </div>
 
-    <!-- Modal Edit Transaksi -->
+    <!-- Modal Edit Transaksi: Pop-up form untuk ubah keterangan waktu bayar -->
     <div id="modal-edit" style="z-index: 9999;" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50 overflow-y-auto w-full h-full p-4">
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl my-8">
             <div class="flex justify-between items-center mb-5 border-b pb-3">
@@ -218,6 +229,7 @@
         </div>
     </div>
 
+    <!-- Script Logika Front-end -->
     <script>
         // Fitur pintar Kasir: Autofill nominal SPP berdasarkan opsi Siswa yang dipilih
         function autoFillSPP() {
@@ -236,7 +248,7 @@
             }
         }
 
-        // Modal Edit helper
+        // Fungsi bantu untuk membuka modal edit dengan data awal
         function openEditModal(id, bulan, tahun) {
             document.getElementById('edit-bulan').value = bulan;
             document.getElementById('edit-tahun').value = tahun;
@@ -244,6 +256,7 @@
             document.getElementById('modal-edit').classList.remove('hidden');
         }
 
+        // Fungsi pencarian tabel secara dinamis
         function searchTable(query, tableId) {
             const table = document.getElementById(tableId);
             const rows = table.querySelectorAll('tbody tr');

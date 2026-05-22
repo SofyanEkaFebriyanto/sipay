@@ -5,6 +5,7 @@
             <p class="text-gray-500 mt-1 font-medium">Mengelola Beban Nominal SPP per Tahun</p>
         </div>
         
+        <!-- Tombol Tambah SPP -->
         <div class="flex space-x-3">
             <button onclick="document.getElementById('modal-add').classList.remove('hidden')" class="bg-[#4A6CF7] hover:bg-[#3451b2] text-white px-5 py-2.5 rounded-lg shadow-sm flex items-center font-semibold transition-colors">
                 <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
@@ -13,6 +14,7 @@
         </div>
     </div>
 
+    <!-- Pesan Feedback -->
     @if(session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
         <span class="block sm:inline">{{ session('success') }}</span>
@@ -29,7 +31,7 @@
     </div>
     @endif
 
-    <!-- Data Table -->
+    <!-- Tabel Data SPP: Menampilkan daftar tarif SPP berdasarkan tahun -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <table class="w-full text-left border-collapse">
             <thead>
@@ -45,6 +47,7 @@
                     <td class="p-4 font-medium">{{ $spp->tahun }}</td>
                     <td class="p-4">Rp {{ number_format($spp->nominal, 0, ',', '.') }}</td>
                     <td class="p-4 flex justify-center space-x-2">
+                        <!-- Aksi Edit & Hapus -->
                         <button onclick="openEditModal({{ $spp->id_spp }}, {{ $spp->tahun }}, {{ $spp->nominal }})" class="w-8 h-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center hover:bg-orange-200 transition-colors" title="Edit">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </button>
@@ -66,7 +69,7 @@
     </div>
 
     @push('modals')
-    <!-- Modal Tambah -->
+    <!-- Modal Tambah SPP -->
     <div id="modal-add" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
             <div class="flex justify-between items-center mb-5">
@@ -93,7 +96,7 @@
         </div>
     </div>
 
-    <!-- Modal Edit -->
+    <!-- Modal Edit SPP -->
     <div id="modal-edit" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
             <div class="flex justify-between items-center mb-5">
@@ -120,6 +123,7 @@
         </div>
     </div>
 
+    <!-- Script Modal Edit SPP -->
     <script>
         function openEditModal(id, tahun, nominal) {
             document.getElementById('edit-tahun').value = tahun;

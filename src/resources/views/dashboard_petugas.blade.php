@@ -8,9 +8,9 @@
         <p class="text-gray-500 mt-1">Ringkasan data aplikasi SPP hari ini.</p>
     </div>
 
-    <!-- Summary Cards -->
+    <!-- Kartu Ringkasan: Menampilkan total data untuk akses cepat -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Card 1: Total Siswa -->
+        <!-- Kartu 1: Total Siswa -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center">
             <div class="w-14 h-14 rounded-full bg-[#4A6CF7]/10 flex items-center justify-center text-[#4A6CF7] mr-4">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <!-- Card 2: Total Petugas -->
+        <!-- Kartu 2: Total Petugas -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center">
             <div class="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center text-green-600 mr-4">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <!-- Card 3: Total Kelas -->
+        <!-- Kartu 3: Total Kelas -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center">
             <div class="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 mr-4">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <!-- Card 4: Total SPP -->
+        <!-- Kartu 4: Total SPP -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center">
             <div class="w-14 h-14 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600 mr-4">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <!-- Recent Transactions -->
+    <!-- Tabel Transaksi Terbaru: Daftar pembayaran yang baru saja dilakukan -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="p-6 border-b border-gray-100 flex items-center justify-between">
             <h2 class="text-lg font-bold text-gray-800">Transaksi Pembayaran Terbaru</h2>

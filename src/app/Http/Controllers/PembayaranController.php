@@ -8,24 +8,30 @@ use App\Models\Petugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controller ini menangani seluruh proses transaksi pembayaran SPP.
+ */
 class PembayaranController extends Controller
 {
     /**
-     * Menampilkan daftar transaksi pembayaran
+     * Menampilkan daftar transaksi pembayaran yang telah dilakukan.
      */
     public function index()
     {
+        // Mengambil transaksi terbaru dengan data siswa dan petugas penginput
         $pembayarans = Pembayaran::with(['siswa', 'petugas'])->latest('id_pembayaran')->get();
+        // Mengambil data siswa untuk keperluan form input pembayaran
         $siswas = Siswa::with(['kelas', 'spp'])->get();
 
         return view('pembayaran.index', compact('pembayarans', 'siswas'));
     }
 
     /**
-     * Menyimpan transaksi pembayaran baru
+     * Mencatat transaksi pembayaran SPP baru ke database.
      */
     public function store(Request $request)
     {
+        // Validasi data transaksi
         $request->validate([
             'nisn' => 'required|exists:siswa,nisn',
             'bulan_dibayar' => 'required',
@@ -34,13 +40,14 @@ class PembayaranController extends Controller
             'jumlah_bayar' => 'required|numeric',
         ]);
 
-        // Ambil ID Petugas yang sedang login (petugas/admin)
+        // Mengambil ID Petugas yang sedang aktif (yang menginput pembayaran)
         $id_petugas = Auth::guard('petugas')->id();
 
+        // Membuat record pembayaran
         Pembayaran::create([
             'id_petugas' => $id_petugas,
             'nisn' => $request->nisn,
-            'tgl_bayar' => now(),
+            'tgl_bayar' => now(), // Tanggal pembayaran otomatis hari ini
             'bulan_dibayar' => $request->bulan_dibayar,
             'tahun_dibayar' => $request->tahun_dibayar,
             'id_spp' => $request->id_spp,
@@ -51,7 +58,7 @@ class PembayaranController extends Controller
     }
 
     /**
-     * Memperbarui data transaksi (hanya bulan dan tahun)
+     * Memperbarui detail bulan atau tahun pada transaksi yang sudah ada.
      */
     public function update(Request $request, $id)
     {
@@ -70,7 +77,7 @@ class PembayaranController extends Controller
     }
 
     /**
-     * Membatalkan/Menghapus transaksi pembayaran
+     * Membatalkan atau menghapus record transaksi pembayaran.
      */
     public function destroy($id)
     {
@@ -81,7 +88,7 @@ class PembayaranController extends Controller
     }
 
     /**
-     * Halaman Laporan (Placeholder)
+     * Menampilkan halaman pembuatan laporan pembayaran.
      */
     public function laporan()
     {

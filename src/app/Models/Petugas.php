@@ -2,27 +2,27 @@
 
 namespace App\Models;
 
-// Hapus 'use Illuminate\Database\Eloquent\Model;'
-// Ganti dengan class khusus untuk Login di bawah ini:
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * Model Petugas digunakan untuk proses login Admin dan Petugas.
+ */
 class Petugas extends Authenticatable
 {
-    // Kasih tau Laravel nama tabel yang benar di database
+    // Menentukan nama tabel di database
     protected $table = 'petugas';
 
-    // Izinkan semua kolom untuk diisi (sintaks dasar yang paling gampang)
+    // Mengizinkan pengisian semua kolom (guarded kosong)
     protected $guarded = [];
     
-    // (Opsional) Kalau primary key-nya bukan 'id', misalnya 'id_petugas', hilangkan tanda komentar di bawah ini:
+    // Menentukan Primary Key tabel
     protected $primaryKey = 'id_petugas';
 
+    // Nonaktifkan timestamps otomatis (created_at, updated_at)
     public $timestamps = false;
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Casting password agar otomatis di-hash.
      */
     protected function casts(): array
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,23 +10,36 @@ use App\Models\Kelas;
 use App\Models\Spp;
 use App\Models\Pembayaran;
 
+/**
+ * Controller ini bertanggung jawab untuk menampilkan halaman Dashboard
+ * yang disesuaikan dengan peran masing-masing pengguna.
+ */
 class DashboardController extends Controller
 {
-    // Fungsi untuk Dashboard Admin
+    /**
+     * Menampilkan Dashboard untuk Admin.
+     * Berisi ringkasan data statistik seluruh sistem.
+     */
     public function admin()
     {
         $data = $this->getSummaryData();
         return view('dashboard', $data); 
     }
 
-    // Fungsi untuk Dashboard Petugas
+    /**
+     * Menampilkan Dashboard untuk Petugas.
+     * Sama seperti admin, namun dengan akses menu yang mungkin terbatas di view.
+     */
     public function petugas()
     {
         $data = $this->getSummaryData();
         return view('dashboard_petugas', $data);
     }
 
-    // Fungsi untuk Dashboard Siswa
+    /**
+     * Menampilkan Dashboard untuk Siswa.
+     * Menampilkan profil siswa dan riwayat pembayaran SPP milik siswa tersebut.
+     */
     public function siswa()
     {
         $user = Auth::guard('siswa')->user();
@@ -41,7 +55,10 @@ class DashboardController extends Controller
         return view('dashboard_siswa', $data);
     }
 
-    // Helper untuk data summary (Admin & Petugas)
+    /**
+     * Fungsi Helper (Pembantu) untuk mengambil data ringkasan statistik.
+     * Digunakan oleh Dashboard Admin dan Petugas agar kode lebih efisien (Reusable).
+     */
     private function getSummaryData()
     {
         return [

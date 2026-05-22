@@ -4,24 +4,30 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * Model Siswa digunakan untuk proses login Siswa dan menyimpan data profil siswa.
+ */
 class Siswa extends Authenticatable
 {
+    // Nama tabel
     protected $table = 'siswa';
+
+    // Kolom yang dijaga (kosong berarti semua boleh diisi)
     protected $guarded = [];
     
-    // Karena siswa login pakai NISN, pastikan Laravel tahu primary key-nya (sesuaikan dengan ERD kalian)
+    // Siswa menggunakan NISN sebagai pengenal unik (Primary Key)
     protected $primaryKey = 'nisn'; 
     
-    // Beri tahu Laravel kalau NISN itu huruf/angka (string), bukan angka berurutan (auto-increment)
+    // Karena NISN bukan angka auto-increment, maka ini harus disetel false
     public $incrementing = false;
+
+    // Tipe data primary key adalah string (karakter)
     protected $keyType = 'string';
 
     public $timestamps = false;
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Casting password agar aman.
      */
     protected function casts(): array
     {
@@ -30,11 +36,17 @@ class Siswa extends Authenticatable
         ];
     }
 
+    /**
+     * Relasi: Satu Siswa termasuk dalam satu Kelas (Many-to-One).
+     */
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas');
     }
 
+    /**
+     * Relasi: Satu Siswa memiliki satu data SPP yang diikuti (Many-to-One).
+     */
     public function spp()
     {
         return $this->belongsTo(Spp::class, 'id_spp');

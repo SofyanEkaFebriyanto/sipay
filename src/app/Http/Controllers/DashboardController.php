@@ -15,14 +15,14 @@ class DashboardController extends Controller
     public function admin()
     {
         $data = $this->getSummaryData();
-        return view('admin.dashboard', $data); 
+        return view('dashboard', $data); 
     }
 
     // Fungsi untuk Dashboard Petugas
     public function petugas()
     {
         $data = $this->getSummaryData();
-        return view('petugas.dashboard', $data);
+        return view('dashboard_petugas', $data);
     }
 
     // Fungsi untuk Dashboard Siswa
@@ -38,7 +38,7 @@ class DashboardController extends Controller
                 ->get(),
         ];
 
-        return view('siswa.dashboard', $data);
+        return view('dashboard_siswa', $data);
     }
 
     // Helper untuk data summary (Admin & Petugas)

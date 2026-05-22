@@ -10,7 +10,7 @@ class KelasController extends Controller
     public function index()
     {
         $kelases = Kelas::all();
-        return view('admin.kelas', compact('kelases'));
+        return view('kelas.index', compact('kelases'));
     }
 
     public function store(Request $request)

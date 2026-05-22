@@ -9,7 +9,7 @@ class AuthController extends Controller
     // 1. Fungsi untuk nampilin halaman login
     public function index()
     {
-        return view('Auth.login');
+        return view('auth.login');
     }
 
     // 2. Fungsi untuk proses login (Sintaks Dasar)

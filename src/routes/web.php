@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\SiswaController;
 
 // Jalur awal langsung ke Login
 Route::get('/', [AuthController::class, 'index']);
@@ -31,5 +32,6 @@ Route::middleware('auth:siswa')->group(function() {
 Route::get('/pembayaran', function() { return "Halaman Pembayaran"; })->name('pembayaran.index');
 Route::get('/siswa', function() { return "Halaman Data Siswa"; })->name('siswa.index');
 Route::resource('kelas', KelasController::class);
+Route::resource('siswa', SiswaController::class);
 Route::get('/spp', function() { return "Halaman Data SPP"; })->name('spp.index');
 Route::get('/user', function() { return "Halaman Data Petugas"; })->name('user.index');

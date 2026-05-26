@@ -27,64 +27,30 @@ class PembayaranController extends Controller
     }
 
     /**
-     * Mencatat transaksi pembayaran SPP baru ke database.
+     * Mencatat transaksi pembayaran SPP baru ke database. (Sedang dalam pengembangan)
      */
     public function store(Request $request)
     {
-        // Validasi data transaksi
-        $request->validate([
-            'nisn' => 'required|exists:siswa,nisn',
-            'bulan_dibayar' => 'required',
-            'tahun_dibayar' => 'required|numeric',
-            'id_spp' => 'required|exists:spp,id_spp',
-            'jumlah_bayar' => 'required|numeric',
-        ]);
-
-        // Mengambil ID Petugas yang sedang aktif (yang menginput pembayaran)
-        $id_petugas = Auth::guard('petugas')->id();
-
-        // Membuat record pembayaran
-        Pembayaran::create([
-            'id_petugas' => $id_petugas,
-            'nisn' => $request->nisn,
-            'tgl_bayar' => now(), // Tanggal pembayaran otomatis hari ini
-            'bulan_dibayar' => $request->bulan_dibayar,
-            'tahun_dibayar' => $request->tahun_dibayar,
-            'id_spp' => $request->id_spp,
-            'jumlah_bayar' => $request->jumlah_bayar,
-        ]);
-
-        return redirect()->route('pembayaran.index')->with('success', 'Transaksi pembayaran berhasil dicatat.');
+        // Logika sedang dalam pengembangan
+        return redirect()->back();
     }
 
     /**
-     * Memperbarui detail bulan atau tahun pada transaksi yang sudah ada.
+     * Memperbarui detail bulan atau tahun pada transaksi yang sudah ada. (Sedang dalam pengembangan)
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'bulan_dibayar' => 'required',
-            'tahun_dibayar' => 'required|numeric',
-        ]);
-
-        $pembayaran = Pembayaran::findOrFail($id);
-        $pembayaran->update([
-            'bulan_dibayar' => $request->bulan_dibayar,
-            'tahun_dibayar' => $request->tahun_dibayar,
-        ]);
-
-        return redirect()->route('pembayaran.index')->with('success', 'Data transaksi berhasil diperbarui.');
+        // Logika sedang dalam pengembangan
+        return redirect()->back();
     }
 
     /**
-     * Membatalkan atau menghapus record transaksi pembayaran.
+     * Membatalkan atau menghapus record transaksi pembayaran. (Sedang dalam pengembangan)
      */
     public function destroy($id)
     {
-        $pembayaran = Pembayaran::findOrFail($id);
-        $pembayaran->delete();
-
-        return redirect()->route('pembayaran.index')->with('success', 'Transaksi pembayaran telah dibatalkan.');
+        // Logika sedang dalam pengembangan
+        return redirect()->back();
     }
 
     /**

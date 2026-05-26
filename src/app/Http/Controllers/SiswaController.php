@@ -70,79 +70,29 @@ class SiswaController extends Controller
     }
 
     /**
-     * Menyimpan data siswa baru ke database.
+     * Menyimpan data siswa baru ke database. (Sedang dalam pengembangan)
      */
     public function store(Request $request)
     {
-        // Validasi input: Memastikan NISN unik dan data lainnya valid
-        $request->validate([
-            'nisn' => 'required|unique:siswa,nisn',
-            'nis' => 'required',
-            'nama' => 'required',
-            'password' => 'required',
-            'id_kelas' => 'required',
-            'alamat' => 'required',
-            'no_telp' => 'required',
-            'id_spp' => 'required'
-        ]);
-
-        // Membuat data siswa baru dengan password yang di-enkripsi (bcrypt)
-        Siswa::create([
-            'nisn'     => $request->nisn,
-            'nis'      => $request->nis,
-            'nama'     => $request->nama,
-            'password' => bcrypt($request->password),
-            'id_kelas' => $request->id_kelas,
-            'alamat'   => $request->alamat,
-            'no_telp'  => $request->no_telp,
-            'id_spp'   => $request->id_spp
-        ]);
-
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan');
+        // Logika sedang dalam pengembangan
+        return redirect()->back();
     }
 
     /**
-     * Memperbarui data siswa yang sudah ada.
+     * Memperbarui data siswa yang sudah ada. (Sedang dalam pengembangan)
      */
     public function update(Request $request, $nisn)
     {
-        $request->validate([
-            'nis' => 'required',
-            'nama' => 'required',
-            'id_kelas' => 'required',
-            'alamat' => 'required',
-            'no_telp' => 'required',
-            'id_spp' => 'required'
-        ]);
-
-        $siswa = Siswa::findOrFail($nisn);
-
-        $data = [
-            'nis'      => $request->nis,
-            'nama'     => $request->nama,
-            'id_kelas' => $request->id_kelas,
-            'alamat'   => $request->alamat,
-            'no_telp'  => $request->no_telp,
-            'id_spp'   => $request->id_spp
-        ];
-
-        // Jika password diisi, maka update passwordnya
-        if ($request->password) {
-            $data['password'] = bcrypt($request->password);
-        }
-
-        $siswa->update($data);
-
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diupdate');
+        // Logika sedang dalam pengembangan
+        return redirect()->back();
     }
 
     /**
-     * Menghapus data siswa berdasarkan NISN.
+     * Menghapus data siswa berdasarkan NISN. (Sedang dalam pengembangan)
      */
     public function destroy($nisn)
     {
-        $siswa = Siswa::findOrFail($nisn);
-        $siswa->delete();
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus');
+        // Logika sedang dalam pengembangan
+        return redirect()->back();
     }
 }

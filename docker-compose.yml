@@ -3,12 +3,9 @@ services:
     build: .
     container_name: sipay_app
     ports:
-<<<<<<< HEAD
       - "8001:8000"
-=======
       - "8000:8000"
       - "5173:5173"
->>>>>>> 415db9beae620f28f07606134f3bc098542c054e
     volumes:
       - ./src:/var/www:Z
     working_dir: /var/www

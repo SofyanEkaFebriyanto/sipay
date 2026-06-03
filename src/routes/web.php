@@ -25,6 +25,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [AuthController::class, 'logout']); // Fallback logout via URL
 
 /**
+ * RUTE TERPROTEKSI (Guard: Siswa):
+ * Hanya dapat diakses oleh Siswa yang login menggunakan NISN.
+ * Rute ini didaftarkan sebelum resource siswa (petugas) agar URL /siswa/dashboard 
+ * tidak bentrok dengan wildcard /siswa/{siswa} dari resource siswa.
+ */
+Route::middleware('auth:siswa')->group(function() {
+    // Dashboard khusus Siswa untuk melihat riwayat bayar sendiri
+    Route::get('/siswa/dashboard', [DashboardController::class, 'siswa'])->name('siswa.dashboard');
+});
+
+/**
  * RUTE TERPROTEKSI (Guard: Petugas):
  * Hanya dapat diakses oleh Admin atau Petugas yang sudah login.
  */
@@ -45,13 +56,4 @@ Route::middleware('auth:petugas')->group(function() {
     
     // Rute tambahan untuk fitur Laporan
     Route::get('/laporan-pembayaran', [PembayaranController::class, 'laporan'])->name('pembayaran.laporan');
-});
-
-/**
- * RUTE TERPROTEKSI (Guard: Siswa):
- * Hanya dapat diakses oleh Siswa yang login menggunakan NISN.
- */
-Route::middleware('auth:siswa')->group(function() {
-    // Dashboard khusus Siswa untuk melihat riwayat bayar sendiri
-    Route::get('/siswa/dashboard', [DashboardController::class, 'siswa'])->name('siswa.dashboard');
 });

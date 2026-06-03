@@ -21,29 +21,64 @@ class PetugasController extends Controller
     }
 
     /**
-     * Menyimpan akun petugas/admin baru. (Sedang dalam pengembangan)
+     * Menyimpan akun petugas/admin baru.
      */
     public function store(Request $request)
     {
-        // Logika sedang dalam pengembangan
-        return redirect()->back();
+        $request->validate([
+            'nama_petugas' => 'required',
+            'username' => 'required|unique:petugas,username',
+            'password' => 'required|min:6',
+            'level' => 'required|in:admin,petugas', // Level hanya boleh admin atau petugas
+        ]);
+
+        Petugas::create([
+            'nama_petugas' => $request->nama_petugas,
+            'username' => $request->username,
+            'password' => Hash::make($request->password), // Password di-hash agar aman
+            'level' => $request->level,
+        ]);
+
+        return redirect()->route('user.index')->with('success', 'Data petugas berhasil ditambahkan.');
     }
 
     /**
-     * Memperbarui data petugas. (Sedang dalam pengembangan)
+     * Memperbarui data petugas.
      */
     public function update(Request $request, $id)
     {
-        // Logika sedang dalam pengembangan
-        return redirect()->back();
+        $request->validate([
+            'nama_petugas' => 'required',
+            'username' => 'required|unique:petugas,username,' . $id . ',id_petugas',
+            'level' => 'required|in:admin,petugas',
+        ]);
+
+        $petugas = Petugas::findOrFail($id);
+        
+        $data = [
+            'nama_petugas' => $request->nama_petugas,
+            'username' => $request->username,
+            'level' => $request->level,
+        ];
+
+        // Hanya mengupdate password jika kolom password diisi
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $petugas->update($data);
+
+        return redirect()->route('user.index')->with('success', 'Data petugas berhasil diperbarui.');
     }
 
     /**
-     * Menghapus akun petugas. (Sedang dalam pengembangan)
+     * Menghapus akun petugas.
      */
     public function destroy($id)
     {
-        // Logika sedang dalam pengembangan
-        return redirect()->back();
+        $petugas = Petugas::findOrFail($id);
+        $petugas->delete();
+
+        return redirect()->route('user.index')->with('success', 'Data petugas berhasil dihapus.');
     }
 }

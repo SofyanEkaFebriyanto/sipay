@@ -11,8 +11,11 @@
 <body class="bg-gradient-to-b from-[#B9D1EA] to-[#F8D7E8] min-h-screen flex items-center justify-center font-sans antialiased">
     
     <div class="w-full max-w-md px-6 flex flex-col items-center">
+        <!-- Logo Aplikasi SIPAY -->
+        <img src="{{ asset('logo.png') }}" alt="Logo SIPAY" class="w-75 h-50 object-contain mb-1">
+
         <!-- Judul Halaman -->
-        <h1 class="text-4xl font-bold text-black mb-10 tracking-tight">LOGIN</h1>
+        <h1 class="text-4xl font-bold text-black mb-10 tracking-tight">LOGIN SIPAY</h1>
 
         <!-- Bagian Pesan Kesalahan Validasi -->
         @if ($errors->any())

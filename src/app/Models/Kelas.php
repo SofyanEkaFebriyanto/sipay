@@ -15,8 +15,8 @@ class Kelas extends Model
     // Primary Key
     protected $primaryKey = 'id_kelas';
 
-    // Semua kolom boleh diisi
-    protected $guarded = [];
+    // Daftar kolom yang boleh diisi (mass assignment)
+    protected $fillable = ['nama_kelas', 'kompetensi_keahlian'];
 
     // Tidak menggunakan timestamps default
     public $timestamps = false;

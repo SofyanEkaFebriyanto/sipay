@@ -12,8 +12,8 @@ class Petugas extends Authenticatable
     // Menentukan nama tabel di database
     protected $table = 'petugas';
 
-    // Mengizinkan pengisian semua kolom (guarded kosong)
-    protected $guarded = [];
+    // Daftar kolom yang boleh diisi (mass assignment)
+    protected $fillable = ['username', 'password', 'nama_petugas', 'level'];
     
     // Menentukan Primary Key tabel
     protected $primaryKey = 'id_petugas';
@@ -22,12 +22,10 @@ class Petugas extends Authenticatable
     public $timestamps = false;
 
     /**
-     * Casting password agar otomatis di-hash.
+     * Casting password agar otomatis di-hash saat disimpan.
+     * Menggunakan property $casts (cara penulisan yang lebih sederhana).
      */
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 }

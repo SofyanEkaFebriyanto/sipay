@@ -12,8 +12,8 @@ class Siswa extends Authenticatable
     // Nama tabel
     protected $table = 'siswa';
 
-    // Kolom yang dijaga (kosong berarti semua boleh diisi)
-    protected $guarded = [];
+    // Daftar kolom yang boleh diisi (mass assignment)
+    protected $fillable = ['nisn', 'nis', 'nama', 'password', 'id_kelas', 'alamat', 'no_telp', 'id_spp'];
     
     // Siswa menggunakan NISN sebagai pengenal unik (Primary Key)
     protected $primaryKey = 'nisn'; 
@@ -27,14 +27,12 @@ class Siswa extends Authenticatable
     public $timestamps = false;
 
     /**
-     * Casting password agar aman.
+     * Casting password agar otomatis di-hash saat disimpan.
+     * Menggunakan property $casts (cara penulisan yang lebih sederhana).
      */
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 
     /**
      * Relasi: Satu Siswa termasuk dalam satu Kelas (Many-to-One).

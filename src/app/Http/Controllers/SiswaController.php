@@ -6,6 +6,7 @@ use App\Models\Siswa;
 use App\Models\Kelas;
 use App\Models\Spp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Controller ini menangani manajemen data Siswa.
@@ -15,58 +16,23 @@ class SiswaController extends Controller
     /**
      * Menampilkan daftar semua siswa beserta relasi kelas dan SPP-nya.
      */
-    public function index() {
-        // Mengambil data siswa dengan eager loading untuk efisiensi query
+    public function index()
+    {
+        // Mengambil data siswa beserta data kelas dan SPP yang terkait
         $siswa = Siswa::with(['kelas', 'spp'])->get();
-        // Mengambil data pendukung untuk form tambah/edit
+
+        // Mengambil data kelas untuk dropdown di form tambah/edit
         $kelas = Kelas::all();
+
+        // Mengambil data SPP untuk dropdown di form tambah/edit
         $spp = Spp::all();
 
-        return view('siswa.index', compact('siswa', 'kelas', 'spp'));
-    }
-
-    /**
-     * Menampilkan Halaman Transaksi Pembayaran (Data Contoh)
-     */
-    public function pembayaran()
-    {
-        // Menyediakan data objek untuk simulasi tampilan riwayat pembayaran
-        $pembayaran = [
-            (object)[
-                'tanggal' => '14 Apr 2026',
-                'nama'    => 'ABDUL REZA',
-                'nisn'    => '0000000001',
-                'bulan'   => 'Agustus 2026',
-                'nominal' => '300.000',
-                'petugas' => 'petugas'
-            ],
-            (object)[
-                'tanggal' => '14 Apr 2026',
-                'nama'    => 'RIZQY FIRMAN',
-                'nisn'    => '0000000003',
-                'bulan'   => 'Juli 2026',
-                'nominal' => '300.000',
-                'petugas' => 'petugas'
-            ],
-            (object)[
-                'tanggal' => '14 Apr 2026',
-                'nama'    => 'BUDI SANTOSO',
-                'nisn'    => '0000000002',
-                'bulan'   => 'Juli 2026',
-                'nominal' => '300.000',
-                'petugas' => 'petugas'
-            ],
-            (object)[
-                'tanggal' => '14 Apr 2026',
-                'nama'    => 'ABDUL REZA',
-                'nisn'    => '0000000001',
-                'bulan'   => 'Juli 2026',
-                'nominal' => '300.000',
-                'petugas' => 'Administrator'
-            ],
-        ];
-
-        return view('pembayaran.index', compact('pembayaran'));
+        // Kirim semua data ke halaman view siswa/index
+        return view('siswa.index', [
+            'siswa' => $siswa,
+            'kelas' => $kelas,
+            'spp' => $spp,
+        ]);
     }
 
     /**
@@ -86,18 +52,19 @@ class SiswaController extends Controller
             'id_spp' => 'required'
         ]);
 
-        // Membuat data siswa baru dengan password yang di-enkripsi (bcrypt)
+        // Membuat data siswa baru dengan password yang di-hash agar aman
         Siswa::create([
             'nisn'     => $request->nisn,
             'nis'      => $request->nis,
             'nama'     => $request->nama,
-            'password' => bcrypt($request->password),
+            'password' => Hash::make($request->password),
             'id_kelas' => $request->id_kelas,
             'alamat'   => $request->alamat,
             'no_telp'  => $request->no_telp,
             'id_spp'   => $request->id_spp
         ]);
 
+        // Kembali ke halaman daftar siswa dengan pesan sukses
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan');
     }
 
@@ -106,6 +73,7 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $nisn)
     {
+        // Validasi input
         $request->validate([
             'nis' => 'required',
             'nama' => 'required',
@@ -115,8 +83,10 @@ class SiswaController extends Controller
             'id_spp' => 'required'
         ]);
 
+        // Cari data siswa berdasarkan NISN
         $siswa = Siswa::findOrFail($nisn);
 
+        // Siapkan data yang akan diupdate
         $data = [
             'nis'      => $request->nis,
             'nama'     => $request->nama,
@@ -126,13 +96,15 @@ class SiswaController extends Controller
             'id_spp'   => $request->id_spp
         ];
 
-        // Jika password diisi, maka update passwordnya
-        if ($request->password) {
-            $data['password'] = bcrypt($request->password);
+        // Jika password diisi, maka update juga passwordnya
+        if ($request->password != null) {
+            $data['password'] = Hash::make($request->password);
         }
 
+        // Simpan perubahan ke database
         $siswa->update($data);
 
+        // Kembali ke halaman daftar siswa dengan pesan sukses
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diupdate');
     }
 
@@ -141,8 +113,13 @@ class SiswaController extends Controller
      */
     public function destroy($nisn)
     {
+        // Cari data siswa berdasarkan NISN
         $siswa = Siswa::findOrFail($nisn);
+
+        // Hapus data siswa dari database
         $siswa->delete();
+
+        // Kembali ke halaman daftar siswa dengan pesan sukses
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus');
     }
 }

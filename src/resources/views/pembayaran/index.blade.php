@@ -258,12 +258,16 @@
 
         // Fungsi pencarian tabel secara dinamis
         function searchTable(query, tableId) {
-            const table = document.getElementById(tableId);
-            const rows = table.querySelectorAll('tbody tr');
-            const q = query.toLowerCase();
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(q) ? '' : 'none';
+            var table = document.getElementById(tableId);
+            var rows = table.querySelectorAll('tbody tr');
+            var q = query.toLowerCase();
+            rows.forEach(function(row) {
+                var text = row.textContent.toLowerCase();
+                if (text.includes(q)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
         }
     </script>

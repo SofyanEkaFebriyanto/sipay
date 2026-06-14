@@ -15,8 +15,8 @@ class Spp extends Model
     // Primary Key
     protected $primaryKey = 'id_spp';
 
-    // Semua kolom boleh diisi
-    protected $guarded = [];
+    // Daftar kolom yang boleh diisi (mass assignment)
+    protected $fillable = ['tahun', 'nominal'];
 
     public $timestamps = false;
 }

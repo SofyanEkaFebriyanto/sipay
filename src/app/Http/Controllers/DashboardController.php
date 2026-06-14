@@ -22,8 +22,11 @@ class DashboardController extends Controller
      */
     public function admin()
     {
+        // Ambil data ringkasan statistik
         $data = $this->getSummaryData();
-        return view('dashboard', $data); 
+
+        // Kirim data ke view dashboard admin
+        return view('dashboard', $data);
     }
 
     /**
@@ -32,7 +35,10 @@ class DashboardController extends Controller
      */
     public function petugas()
     {
+        // Ambil data ringkasan statistik
         $data = $this->getSummaryData();
+
+        // Kirim data ke view dashboard petugas
         return view('dashboard_petugas', $data);
     }
 
@@ -42,17 +48,21 @@ class DashboardController extends Controller
      */
     public function siswa()
     {
+        // Ambil data siswa yang sedang login dari guard 'siswa'
         $user = Auth::guard('siswa')->user();
-        
-        $data = [
-            'siswa' => $user,
-            'pembayarans' => Pembayaran::with('petugas')
-                ->where('nisn', $user->nisn)
-                ->latest('tgl_bayar')
-                ->get(),
-        ];
 
-        return view('dashboard_siswa', $data);
+        // Ambil riwayat pembayaran milik siswa ini beserta data petugas penginput
+        // Diurutkan berdasarkan tanggal bayar terbaru
+        $pembayarans = Pembayaran::with('petugas')
+            ->where('nisn', $user->nisn)
+            ->latest('tgl_bayar')
+            ->get();
+
+        // Kirim data ke view dashboard siswa menggunakan array manual
+        return view('dashboard_siswa', [
+            'siswa' => $user,
+            'pembayarans' => $pembayarans,
+        ]);
     }
 
     /**
@@ -61,15 +71,25 @@ class DashboardController extends Controller
      */
     private function getSummaryData()
     {
+        // Hitung total masing-masing data
+        $totalSiswa = Siswa::count();
+        $totalPetugas = Petugas::count();
+        $totalKelas = Kelas::count();
+        $totalSPP = Spp::count();
+
+        // Ambil 5 transaksi pembayaran terbaru beserta data siswa dan petugas
+        $recentPembayaran = Pembayaran::with(['siswa', 'petugas'])
+            ->latest('id_pembayaran')
+            ->take(5)
+            ->get();
+
+        // Kembalikan data dalam bentuk array
         return [
-            'totalSiswa' => Siswa::count(),
-            'totalPetugas' => Petugas::count(),
-            'totalKelas' => Kelas::count(),
-            'totalSPP' => Spp::count(),
-            'recentPembayaran' => Pembayaran::with(['siswa', 'petugas'])
-                ->latest('id_pembayaran')
-                ->take(5)
-                ->get(),
+            'totalSiswa' => $totalSiswa,
+            'totalPetugas' => $totalPetugas,
+            'totalKelas' => $totalKelas,
+            'totalSPP' => $totalSPP,
+            'recentPembayaran' => $recentPembayaran,
         ];
     }
 }

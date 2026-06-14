@@ -15,8 +15,8 @@ class Pembayaran extends Model
     // Primary Key
     protected $primaryKey = 'id_pembayaran';
 
-    // Semua kolom boleh diisi
-    protected $guarded = [];
+    // Daftar kolom yang boleh diisi (mass assignment)
+    protected $fillable = ['id_petugas', 'nisn', 'tgl_bayar', 'bulan_dibayar', 'tahun_dibayar', 'id_spp', 'jumlah_bayar'];
 
     public $timestamps = false;
 

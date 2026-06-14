@@ -16,8 +16,11 @@ class KelasController extends Controller
      */
     public function index()
     {
+        // Ambil semua data kelas dari database
         $kelases = Kelas::all();
-        return view('kelas.index', compact('kelases'));
+
+        // Kirim data ke halaman view kelas/index
+        return view('kelas.index', ['kelases' => $kelases]);
     }
 
     /**
@@ -31,9 +34,13 @@ class KelasController extends Controller
             'kompetensi_keahlian' => 'required',
         ]);
 
-        // Membuat record baru di tabel kelas
-        Kelas::create($request->all());
+        // Membuat record baru di tabel kelas dengan kolom yang jelas
+        Kelas::create([
+            'nama_kelas' => $request->nama_kelas,
+            'kompetensi_keahlian' => $request->kompetensi_keahlian,
+        ]);
 
+        // Kembali ke halaman daftar kelas dengan pesan sukses
         return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil ditambahkan.');
     }
 
@@ -48,11 +55,16 @@ class KelasController extends Controller
             'kompetensi_keahlian' => 'required',
         ]);
 
-        // Mencari data kelas, jika tidak ketemu akan error 404
+        // Mencari data kelas berdasarkan ID, jika tidak ketemu akan error 404
         $kelas = Kelas::findOrFail($id);
-        // Memperbarui data kelas
-        $kelas->update($request->all());
 
+        // Memperbarui data kelas dengan kolom yang jelas
+        $kelas->update([
+            'nama_kelas' => $request->nama_kelas,
+            'kompetensi_keahlian' => $request->kompetensi_keahlian,
+        ]);
+
+        // Kembali ke halaman daftar kelas dengan pesan sukses
         return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil diperbarui.');
     }
 
@@ -61,9 +73,13 @@ class KelasController extends Controller
      */
     public function destroy($id)
     {
+        // Cari data kelas berdasarkan ID
         $kelas = Kelas::findOrFail($id);
+
+        // Hapus data kelas dari database
         $kelas->delete();
 
+        // Kembali ke halaman daftar kelas dengan pesan sukses
         return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil dihapus.');
     }
 }
